@@ -1,0 +1,13 @@
+{
+  "name": "myapp",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter './apps/*' run dev",
+    "build": "pnpm --filter '@myapp/shared' run build && pnpm --parallel --filter './apps/*' run build",
+    "lint": "pnpm --recursive run lint",
+    "type-check": "pnpm --recursive run type-check"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "vars": {
+    "PORT_WEB": "3000",
+    "PORT_API": "3001",
+    "PORT_POSTGRES": "5432"
+  },
+  "setup": {
+    "script": "scripts/setup.sh"
+  }
+}
