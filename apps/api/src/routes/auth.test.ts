@@ -42,6 +42,22 @@ const MOCK_SESSION = {
   createdAt: new Date(),
 };
 
+const MOCK_SESSION_WITH_USER = {
+  id: "session-cuid-1",
+  userId: MOCK_USER.id,
+  token: "valid-refresh-token",
+  expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  createdAt: new Date(),
+  user: {
+    id: MOCK_USER.id,
+    email: MOCK_USER.email,
+    name: MOCK_USER.name,
+    role: MOCK_USER.role,
+    createdAt: MOCK_USER.createdAt,
+    updatedAt: MOCK_USER.updatedAt,
+  },
+};
+
 describe("Auth routes", () => {
   let app: FastifyInstance;
 
@@ -222,6 +238,71 @@ describe("Auth routes", () => {
         url: "/auth/logout",
       });
       expect(res.statusCode).toBe(401);
+    });
+  });
+
+  describe("POST /auth/refresh", () => {
+    it("returns 200 and new tokens on valid refresh token", async () => {
+      prisma.session.findUnique.mockResolvedValue(MOCK_SESSION_WITH_USER);
+      prisma.session.delete.mockResolvedValue(MOCK_SESSION_WITH_USER);
+      prisma.session.create.mockResolvedValue(MOCK_SESSION);
+
+      const res = await app.inject({
+        method: "POST",
+        url: "/auth/refresh",
+        headers: { cookie: "refreshToken=valid-refresh-token" },
+      });
+
+      expect(res.statusCode).toBe(200);
+      const body = res.json<{ user: typeof MOCK_USER_PUBLIC; token: string }>();
+      expect(body.user.id).toBe(MOCK_USER.id);
+      expect(body.user).not.toHaveProperty("passwordHash");
+      expect(body.token).toBeTruthy();
+      expect(res.headers["set-cookie"]).toBeDefined();
+    });
+
+    it("returns 401 when no refresh token cookie", async () => {
+      const res = await app.inject({
+        method: "POST",
+        url: "/auth/refresh",
+      });
+
+      expect(res.statusCode).toBe(401);
+      expect(res.json<{ error: string }>().error).toMatch(/no refresh token/i);
+    });
+
+    it("returns 401 when session not found in DB", async () => {
+      prisma.session.findUnique.mockResolvedValue(null);
+
+      const res = await app.inject({
+        method: "POST",
+        url: "/auth/refresh",
+        headers: { cookie: "refreshToken=nonexistent-token" },
+      });
+
+      expect(res.statusCode).toBe(401);
+      expect(res.json<{ error: string }>().error).toMatch(/invalid or expired/i);
+    });
+
+    it("returns 401 and deletes expired session", async () => {
+      const expiredSession = {
+        ...MOCK_SESSION_WITH_USER,
+        expiresAt: new Date(Date.now() - 1000),
+      };
+      prisma.session.findUnique.mockResolvedValue(expiredSession);
+      prisma.session.delete.mockResolvedValue(expiredSession);
+
+      const res = await app.inject({
+        method: "POST",
+        url: "/auth/refresh",
+        headers: { cookie: "refreshToken=valid-refresh-token" },
+      });
+
+      expect(res.statusCode).toBe(401);
+      expect(res.json<{ error: string }>().error).toMatch(/invalid or expired/i);
+      expect(prisma.session.delete).toHaveBeenCalledWith({
+        where: { id: expiredSession.id },
+      });
     });
   });
 });

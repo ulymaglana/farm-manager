@@ -1,4 +1,5 @@
 import type { FastifyInstance, RouteShorthandOptions } from "fastify";
+import { z } from "zod";
 import { prisma } from "../db.js";
 import { requireAuth } from "../hooks/requireAuth.js";
 import { requireRole } from "../hooks/requireRole.js";
@@ -8,12 +9,19 @@ const adminOpts = {
   preHandler: [requireAuth, requireRole("ADMIN")],
 } satisfies RouteShorthandOptions;
 
+const AdminUsersQuery = z.object({
+  cursor: z.string().optional(),
+  limit: z.coerce.number().int().min(1).max(100).default(20),
+});
+
 export async function adminRoutes(app: FastifyInstance): Promise<void> {
   // GET /admin/users — paginated list of all users (cursor-based)
   app.get("/users", adminOpts, async (request, reply) => {
-    const query = request.query as { cursor?: string; limit?: string };
-    const limit = Math.min(Number(query.limit ?? 20), 100);
-    const cursor = query.cursor;
+    const queryResult = AdminUsersQuery.safeParse(request.query);
+    if (!queryResult.success) {
+      return reply.status(400).send({ error: "Invalid query parameters" });
+    }
+    const { cursor, limit } = queryResult.data;
 
     const users = await prisma.user.findMany({
       take: limit + 1, // fetch one extra to determine if there's a next page

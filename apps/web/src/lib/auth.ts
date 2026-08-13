@@ -45,11 +45,21 @@ export async function loginAction(
   const setCookieHeader = res.headers.getSetCookie();
   const cookieStore = cookies();
   for (const cookieStr of setCookieHeader) {
-    // Next.js 14 cookies().set does not accept raw Set-Cookie strings directly;
-    // the API sets them via Fastify, so we forward them via the response.
-    // In production, configure a shared domain or use a reverse proxy.
-    void cookieStr;
-    void cookieStore;
+    const parts = cookieStr.split(";").map((s) => s.trim());
+    const [nameValue, ...attrs] = parts;
+    const eqIdx = nameValue.indexOf("=");
+    const name = nameValue.slice(0, eqIdx);
+    const value = nameValue.slice(eqIdx + 1);
+    const opts: Record<string, string | boolean | number> = { path: "/" };
+    for (const attr of attrs) {
+      const lower = attr.toLowerCase();
+      if (lower === "httponly") opts.httpOnly = true;
+      else if (lower === "secure") opts.secure = true;
+      else if (lower.startsWith("samesite=")) opts.sameSite = attr.slice(9).toLowerCase();
+      else if (lower.startsWith("max-age=")) opts.maxAge = Number(attr.slice(8));
+      else if (lower.startsWith("path=")) opts.path = attr.slice(5);
+    }
+    cookieStore.set(name, value, opts as Parameters<typeof cookieStore.set>[2]);
   }
 
   redirect("/dashboard");
@@ -92,6 +102,10 @@ export async function logoutAction(): Promise<void> {
   } catch {
     // Best-effort
   }
+  // Always clear local cookies regardless of API response
+  const cookieStore = cookies();
+  cookieStore.delete("token");
+  cookieStore.delete("refreshToken");
   redirect("/login");
 }
 

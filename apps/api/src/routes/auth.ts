@@ -13,8 +13,14 @@ const ARGON2_OPTIONS = {
   parallelism: 1,
 };
 
-// Pre-computed dummy hash for timing-safe login (prevents user enumeration via response time)
-const DUMMY_HASH = await hash("dummy_password_for_timing_safety", ARGON2_OPTIONS);
+// Lazily-initialized dummy hash for timing-safe login (prevents user enumeration via response time)
+let _dummyHash: string | null = null;
+async function getDummyHash(): Promise<string> {
+  if (!_dummyHash) {
+    _dummyHash = await hash("dummy_password_for_timing_safety", ARGON2_OPTIONS);
+  }
+  return _dummyHash;
+}
 
 const RegisterBody = z.object({
   email: z.string().email().max(255),
@@ -147,7 +153,7 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
 
     if (!user) {
       // Timing-safe: verify against dummy hash so response time matches a real user
-      await verify(DUMMY_HASH, password);
+      await verify(await getDummyHash(), password);
       return reply.status(401).send({ error: "Invalid credentials" });
     }
 
@@ -220,16 +226,18 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
       return reply.status(401).send({ error: "Invalid or expired refresh token" });
     }
 
-    // Rotate: delete old session, create new one
-    await prisma.session.delete({ where: { id: session.id } });
+    // Rotate: delete old session, create new one atomically
     const newRefreshToken = generateRefreshToken();
-    await prisma.session.create({
-      data: {
-        userId: session.user.id,
-        token: newRefreshToken,
-        expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL_MS),
-      },
-    });
+    await prisma.$transaction([
+      prisma.session.delete({ where: { id: session.id } }),
+      prisma.session.create({
+        data: {
+          userId: session.user.id,
+          token: newRefreshToken,
+          expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL_MS),
+        },
+      }),
+    ]);
 
     const token = setAuthCookies(app, reply, session.user.id, session.user.role as UserRole, newRefreshToken);
     return reply.send({ user: toUserPublic(session.user), token });
