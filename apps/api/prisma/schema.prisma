@@ -26,3 +26,15 @@ model Job {
 
   @@index([status, createdAt])
 }
+
+model Animal {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(100)
+  species     String   @db.VarChar(100)
+  age         Int?
+  description String?  @db.VarChar(1000)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([species, createdAt])
+}

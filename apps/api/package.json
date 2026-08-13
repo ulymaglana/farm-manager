@@ -16,6 +16,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@fastify/cors": "^8.5.0",
     "@myapp/shared": "workspace:*",
     "@prisma/client": "^5.14.0",
     "fastify": "^4.27.0"

@@ -18,3 +18,7 @@ graphify-out/cache/ast/
 # OS
 .DS_Store
 Thumbs.db
+tmp/
+graphify-out/.rebuild.lock
+graphify-out/GRAPH_REPORT.md
+graphify-out/graph.json
