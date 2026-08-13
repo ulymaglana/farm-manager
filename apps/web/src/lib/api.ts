@@ -1,6 +1,6 @@
 export interface HealthResponse {
-  status: string;
-  db: string;
+  status: "ok" | "error";
+  db: "connected" | "disconnected";
 }
 
 export async function getHealth(): Promise<HealthResponse | null> {

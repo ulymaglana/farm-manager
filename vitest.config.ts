@@ -17,6 +17,8 @@ export default defineConfig({
         "**/__mocks__/**",
         "**/node_modules/**",
         "apps/*/src/index.ts",
+        "apps/*/src/db.ts",
+        "packages/*/src/db.ts",
       ],
       reporter: ["text", "html", "json-summary"],
       reportsDirectory: "./coverage",

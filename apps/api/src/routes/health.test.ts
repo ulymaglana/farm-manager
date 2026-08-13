@@ -1,14 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import type { FastifyInstance } from "fastify";
-import type { DeepMockProxy } from "vitest-mock-extended";
-import type { PrismaClient } from "@prisma/client";
 
 vi.mock("../db.js");
 
 import { buildApp } from "../app.js";
 import { prisma } from "../db.js";
-
-const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 describe("GET /health", () => {
   let app: FastifyInstance;
@@ -22,7 +18,7 @@ describe("GET /health", () => {
   });
 
   it("returns 200 {status:'ok', db:'connected'} when DB responds", async () => {
-    prismaMock.$queryRaw.mockResolvedValue([{ "?column?": 1 }]);
+    prisma.$queryRaw.mockResolvedValue([{ "?column?": 1 }]);
 
     const res = await app.inject({ method: "GET", url: "/health" });
 
@@ -31,7 +27,7 @@ describe("GET /health", () => {
   });
 
   it("returns 503 {status:'error', db:'disconnected'} when DB throws", async () => {
-    prismaMock.$queryRaw.mockRejectedValue(new Error("connection refused"));
+    prisma.$queryRaw.mockRejectedValue(new Error("connection refused"));
 
     const res = await app.inject({ method: "GET", url: "/health" });
 
