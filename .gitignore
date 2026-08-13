@@ -18,3 +18,4 @@ graphify-out/cache/ast/
 # OS
 .DS_Store
 Thumbs.db
+tmp/
