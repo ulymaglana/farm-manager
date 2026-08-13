@@ -1,18 +1,4 @@
-interface HealthResponse {
-  status: string;
-  db: string;
-}
-
-async function getHealth(): Promise<HealthResponse | null> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
-  try {
-    const res = await fetch(`${apiUrl}/health`, { cache: "no-store" });
-    if (!res.ok) return null;
-    return res.json() as Promise<HealthResponse>;
-  } catch {
-    return null;
-  }
-}
+import { getHealth } from "../lib/api";
 
 export default async function HomePage() {
   const health = await getHealth();

@@ -5,9 +5,17 @@
     "dev": "pnpm --parallel --filter './apps/*' run dev",
     "build": "pnpm --filter '@myapp/shared' run build && pnpm --parallel --filter './apps/*' run build",
     "lint": "pnpm --recursive run lint",
-    "type-check": "pnpm --recursive run type-check"
+    "type-check": "pnpm --recursive run type-check",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "@vitest/coverage-v8": "^3.2.7",
+    "happy-dom": "^15.11.7",
+    "typescript": "^5.4.5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.7",
+    "vitest-mock-extended": "^2.0.2"
   }
 }

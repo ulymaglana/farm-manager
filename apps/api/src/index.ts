@@ -1,15 +1,13 @@
-import Fastify from "fastify";
+import { pathToFileURL } from "node:url";
 import { createLogger } from "@myapp/shared";
-import { healthRoutes } from "./routes/health.js";
+import { buildApp } from "./app.js";
+import { prisma } from "./db.js";
 
 const logger = createLogger("api");
 const port = Number(process.env.PORT ?? 3001);
 
-const app = Fastify({ logger: false });
-
-app.register(healthRoutes);
-
 const start = async () => {
+  const app = buildApp();
   try {
     await app.listen({ port, host: "0.0.0.0" });
     logger.info(`API server started`, { port });
@@ -21,11 +19,13 @@ const start = async () => {
 
 const shutdown = async (signal: string) => {
   logger.info(`Received ${signal}, shutting down`);
-  await app.close();
+  await prisma.$disconnect();
   process.exit(0);
 };
 
 process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT", () => shutdown("SIGINT"));
 
-start();
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  start();
+}
