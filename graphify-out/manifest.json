@@ -8,12 +8,12 @@
     "hash": "15256cbeb0cb26df52a3c107a262e264"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/packages/shared/src/index.ts": {
-    "mtime": 1786636020.5150316,
-    "hash": "971386203b286070129e199ba0dbf623"
+    "mtime": 1786637381.5358188,
+    "hash": "6823cb3328c0395075ca021f4f821ad4"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/packages/shared/src/types/animal.ts": {
-    "mtime": 1786636014.8297334,
-    "hash": "3939ffd6c652e57f479f5e3a3abfd1d3"
+    "mtime": 1786637381.536358,
+    "hash": "1cfd3b0c0bcd5cb63e66dfb6924280e4"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/packages/shared/src/types/job.ts": {
     "mtime": 1786631936.7792137,
@@ -48,12 +48,12 @@
     "hash": "410a44fe6d191df50a85a310e9b3bbee"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/web/src/app/page.tsx": {
-    "mtime": 1786636318.5203757,
-    "hash": "abb1b842993e24c59a7f2cf1f49e55bd"
+    "mtime": 1786637381.5301692,
+    "hash": "e226e5e1df11e7875b7006421dca778a"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/web/src/lib/api.ts": {
-    "mtime": 1786636309.2921655,
-    "hash": "c5e82dd05095065ee844321b55132eac"
+    "mtime": 1786637381.5304756,
+    "hash": "932ff7a832bfe4493bab099395c4ab79"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/web/src/lib/api.test.ts": {
     "mtime": 1786631936.7657204,
@@ -64,8 +64,8 @@
     "hash": "9154b4c10a2303a7d63a252158409dee"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/api/src/app.ts": {
-    "mtime": 1786636047.9108324,
-    "hash": "60d908f275f4851f0e3d87672640e252"
+    "mtime": 1786637381.528078,
+    "hash": "d020741275dc68733af4dd79d245f6d4"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/api/src/index.ts": {
     "mtime": 1786631936.7630024,
@@ -80,16 +80,16 @@
     "hash": "a5ddd2ea580e82004d9734b8b41f3523"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/api/src/routes/animals.ts": {
-    "mtime": 1786636042.409222,
-    "hash": "9bf4103a7276ffce9f7f199de25c324b"
+    "mtime": 1786637381.5295851,
+    "hash": "aa4027636757828cb729d19cbe9fd238"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/api/src/routes/health.ts": {
     "mtime": 1786631936.7636025,
     "hash": "0e6e9c817c2058dc79e5cffc0bf95302"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/api/src/routes/animals.test.ts": {
-    "mtime": 1786636278.7586634,
-    "hash": "7284cecc2d20ee1002acb1ab78fe68a0"
+    "mtime": 1786637508.5548775,
+    "hash": "766966fc41ff9ecd8b3428bdd9679b6b"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/apps/api/src/routes/health.test.ts": {
     "mtime": 1786631936.76332,
@@ -128,8 +128,8 @@
     "hash": "9f441a32e158715c396fe17a395c3ea6"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/CLAUDE.md": {
-    "mtime": 1786631936.7608879,
-    "hash": "e1f8be14a1f963f757d8835f1153737f"
+    "mtime": 1786637381.5253208,
+    "hash": "4047a66bc4ac063c1a9debbb3a044d7e"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/pnpm-workspace.yaml": {
     "mtime": 1786631936.7807329,
@@ -143,13 +143,33 @@
     "mtime": 1786635932.6235344,
     "hash": "1b4639abbaf915ab9c7b270843be95f1"
   },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/015-resolved-p1-put-should-be-patch-rfc9110.md": {
+    "mtime": 1786637016.2520769,
+    "hash": "803420a4e29193cb6c16e59172ad6cad"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/011-resolved-p1-cursor-pagination-wrong-sort-key.md": {
+    "mtime": 1786636949.8048832,
+    "hash": "dd68d6708239e6c7e1a687c65afe7246"
+  },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/007-pending-p2-no-per-package-test-scripts.md": {
     "mtime": 1786631936.7828588,
     "hash": "b0a3edea3c944d983645b05d6c94a8b5"
   },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/017-resolved-p2-no-auth-on-endpoints.md": {
+    "mtime": 1786637052.9881952,
+    "hash": "8a87ca62ff6158a112673d8f0dc74782"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/019-resolved-p2-fastify-logger-disabled.md": {
+    "mtime": 1786637079.893597,
+    "hash": "32d63a16801d993899b53bb46801b55a"
+  },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/006-pending-p2-tsconfig-test-json-orphaned.md": {
     "mtime": 1786631936.7825294,
     "hash": "874e6e55ce86dd25e6ad2dc94c9d10c2"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/018-resolved-p2-no-cors-configured.md": {
+    "mtime": 1786637064.9609683,
+    "hash": "273179045b9ec002fec34f58a96c140b"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/002-pending-p1-mocks-db-missing-return-type.md": {
     "mtime": 1786631936.7815259,
@@ -163,9 +183,21 @@
     "mtime": 1786631936.783121,
     "hash": "c3b08774cf8b58bff0ef7b814afcdc81"
   },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/016-resolved-p1-unsafe-as-cast-on-fetch-json.md": {
+    "mtime": 1786637034.6101816,
+    "hash": "c282387ad9091d3b5710a36bb371663d"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/024-resolved-p3-getanimals-silently-truncates-pagination.md": {
+    "mtime": 1786637143.7817109,
+    "hash": "769f335244a3a6c4b0c43e4851063f3a"
+  },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/005-pending-p2-transaction-mock-in-beforeeach.md": {
     "mtime": 1786631936.7823157,
     "hash": "36a1b2e69a7a14dba69db099360307fb"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/012-resolved-p1-next-public-api-url-leaks-to-browser.md": {
+    "mtime": 1786636968.5206475,
+    "hash": "b9c5deee4e1b53312df4b00d059f90b7"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/009-pending-p3-coverage-exclude-db-files.md": {
     "mtime": 1786631936.7834218,
@@ -179,9 +211,33 @@
     "mtime": 1786631936.7836802,
     "hash": "e67f62fb79170862bbbac869d954fd51"
   },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/023-resolved-p3-cursor-decode-no-cuid-validation.md": {
+    "mtime": 1786637128.708141,
+    "hash": "ea9abaa97a08bcb566819b917a7ca633"
+  },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/001-pending-p1-transaction-callback-any-type.md": {
     "mtime": 1786631936.7812927,
     "hash": "b47b3d348673f081a0ed43d842bdf504"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/022-resolved-p3-dead-limit-fallback.md": {
+    "mtime": 1786637115.751404,
+    "hash": "627097e41b2970b2842f7591c59af650"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/013-resolved-p1-db-push-and-migrate-coexist.md": {
+    "mtime": 1786636985.1125143,
+    "hash": "df996d3360c6c3133d6ccb05e82c02e2"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/021-resolved-p3-duplicate-p2025-catch-blocks.md": {
+    "mtime": 1786637106.050574,
+    "hash": "cd880a597bb2048a95e76d32b6911eec"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/020-resolved-p2-pagination-envelope-no-shared-type.md": {
+    "mtime": 1786637094.9897387,
+    "hash": "d09c494aee47b290d2331e583b84beef"
+  },
+  "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/todos/014-resolved-p1-inline-body-types-drift-from-shared.md": {
+    "mtime": 1786637000.2863116,
+    "hash": "af35f69e1840698c41fafe93dda7e612"
   },
   "/Users/ulysses/.devswarm/repos/1/c506de21/animal-api/docs/feature-demo.gif": {
     "mtime": 1786631936.769185,
