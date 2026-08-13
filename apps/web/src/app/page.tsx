@@ -1,7 +1,7 @@
-import { getHealth } from "../lib/api";
+import { getHealth, getAnimals } from "../lib/api";
 
 export default async function HomePage() {
-  const health = await getHealth();
+  const [health, animals] = await Promise.all([getHealth(), getAnimals()]);
 
   return (
     <main style={{ fontFamily: "monospace", padding: "2rem" }}>
@@ -13,6 +13,22 @@ export default async function HomePage() {
         </pre>
       ) : (
         <p style={{ color: "red" }}>API unreachable</p>
+      )}
+      <h2>Animals</h2>
+      {animals === null ? (
+        <p style={{ color: "red" }}>Could not load animals</p>
+      ) : animals.length === 0 ? (
+        <p style={{ color: "#888" }}>No animals yet.</p>
+      ) : (
+        <ul style={{ paddingLeft: "1.5rem" }}>
+          {animals.map((animal) => (
+            <li key={animal.id}>
+              <strong>{animal.name}</strong> — {animal.species}
+              {animal.age !== null ? ` (age: ${animal.age})` : ""}
+              {animal.description ? ` — ${animal.description}` : ""}
+            </li>
+          ))}
+        </ul>
       )}
     </main>
   );
