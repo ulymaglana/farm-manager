@@ -12,6 +12,9 @@ prisma/migrations/
 # pnpm
 .pnpm-store/
 
+# graphify
+graphify-out/cache/ast/
+
 # OS
 .DS_Store
 Thumbs.db
