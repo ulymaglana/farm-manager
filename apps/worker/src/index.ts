@@ -5,12 +5,25 @@ import { runNextJob } from "./jobs/runner.js";
 
 const logger = createLogger("worker");
 const POLL_INTERVAL_MS = Number(process.env.POLL_INTERVAL_MS ?? 5000);
+const SESSION_CLEANUP_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+let lastSessionCleanup = 0;
 
 export async function pollLoop(signal?: AbortSignal): Promise<void> {
   logger.info("Worker started", { pollIntervalMs: POLL_INTERVAL_MS });
 
   while (!signal?.aborted) {
     try {
+      const now = Date.now();
+      if (now - lastSessionCleanup >= SESSION_CLEANUP_INTERVAL_MS) {
+        const { count } = await prisma.session.deleteMany({
+          where: { expiresAt: { lt: new Date() } },
+        });
+        if (count > 0) {
+          logger.info("Cleaned up expired sessions", { count });
+        }
+        lastSessionCleanup = now;
+      }
+
       const processed = await runNextJob();
       if (!processed) {
         await sleep(POLL_INTERVAL_MS);
