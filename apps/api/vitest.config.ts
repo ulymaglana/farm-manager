@@ -9,6 +9,10 @@ export default defineConfig({
     include: ["src/**/*.test.ts"],
     unstubGlobals: true,
     restoreMocks: true,
+    env: {
+      JWT_SECRET: "test-secret-that-is-long-enough-for-jwt-signing",
+      NODE_ENV: "test",
+    },
   },
   resolve: {
     alias: {

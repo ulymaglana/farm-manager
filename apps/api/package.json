@@ -16,9 +16,16 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@fastify/cookie": "^9.4.0",
+    "@fastify/cors": "^8.5.0",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/jwt": "^8.0.1",
     "@myapp/shared": "workspace:*",
     "@prisma/client": "^5.14.0",
-    "fastify": "^4.27.0"
+    "argon2": "^0.45.1",
+    "fastify": "^4.27.0",
+    "fastify-plugin": "^6.0.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
