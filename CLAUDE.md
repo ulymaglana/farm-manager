@@ -18,7 +18,7 @@ pnpm monorepo with:
 ./scripts/setup.sh          # First-time setup
 pnpm dev                    # Start all services in parallel
 docker compose up -d postgres
-pnpm --filter api run db:push     # Apply schema changes
+pnpm --filter api run db:push     # Apply schema changes (db:push is the schema management strategy — not prisma migrate — for this prototype)
 pnpm --filter api run db:studio   # Prisma Studio
 ```
 

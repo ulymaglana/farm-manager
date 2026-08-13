@@ -1,6 +1,7 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyReply } from "fastify";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../db.js";
+import type { CreateAnimalInput } from "@myapp/shared";
 
 const createBodySchema = {
   type: "object",
@@ -44,22 +45,37 @@ const listQuerySchema = {
 
 const notFound = { statusCode: 404, error: "Not Found", message: "Animal not found" };
 
+function handleNotFound(err: unknown, reply: FastifyReply): void {
+  if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025") {
+    reply.status(404).send(notFound);
+    return;
+  }
+  throw err;
+}
+
+// NOTE: These endpoints are intentionally unauthenticated for demo purposes.
+// Add authentication (e.g. API key preHandler) before production use.
 export async function animalRoutes(app: FastifyInstance): Promise<void> {
   // GET / — cursor-paginated list
   app.get<{ Querystring: { limit?: number; cursor?: string } }>(
     "/",
     { schema: { querystring: listQuerySchema } },
     async (req, reply) => {
-      const limit = req.query.limit ?? 20;
+      const limit = req.query.limit;
       const cursorId = req.query.cursor
         ? Buffer.from(req.query.cursor, "base64url").toString("utf8")
         : undefined;
+
+      const CUID_REGEX = /^c[a-z0-9]{24}$/;
+      if (cursorId !== undefined && !CUID_REGEX.test(cursorId)) {
+        return reply.status(400).send({ statusCode: 400, error: "Bad Request", message: "Invalid cursor" });
+      }
 
       const animals = await prisma.animal.findMany({
         take: limit + 1,
         skip: cursorId ? 1 : 0,
         cursor: cursorId ? { id: cursorId } : undefined,
-        orderBy: { createdAt: "desc" },
+        orderBy: { id: "desc" },
       });
 
       const hasNextPage = animals.length > limit;
@@ -90,7 +106,7 @@ export async function animalRoutes(app: FastifyInstance): Promise<void> {
   );
 
   // POST /
-  app.post<{ Body: { name: string; species: string; age?: number; description?: string } }>(
+  app.post<{ Body: CreateAnimalInput }>(
     "/",
     { schema: { body: createBodySchema } },
     async (req, reply) => {
@@ -99,10 +115,10 @@ export async function animalRoutes(app: FastifyInstance): Promise<void> {
     }
   );
 
-  // PUT /:id — partial update
-  app.put<{
+  // PATCH /:id — partial update
+  app.patch<{
     Params: { id: string };
-    Body: { name?: string; species?: string; age?: number; description?: string };
+    Body: Partial<CreateAnimalInput>;
   }>(
     "/:id",
     { schema: { params: idParamsSchema, body: updateBodySchema } },
@@ -114,10 +130,7 @@ export async function animalRoutes(app: FastifyInstance): Promise<void> {
         });
         return reply.send(animal);
       } catch (err) {
-        if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025") {
-          return reply.status(404).send(notFound);
-        }
-        throw err;
+        handleNotFound(err, reply);
       }
     }
   );
@@ -131,10 +144,7 @@ export async function animalRoutes(app: FastifyInstance): Promise<void> {
         await prisma.animal.delete({ where: { id: req.params.id } });
         return reply.status(204).send();
       } catch (err) {
-        if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025") {
-          return reply.status(404).send(notFound);
-        }
-        throw err;
+        handleNotFound(err, reply);
       }
     }
   );

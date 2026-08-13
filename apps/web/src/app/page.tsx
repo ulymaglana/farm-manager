@@ -15,6 +15,7 @@ export default async function HomePage() {
         <p style={{ color: "red" }}>API unreachable</p>
       )}
       <h2>Animals</h2>
+      {/* Shows first page only (up to 20 animals). Pagination not yet implemented. */}
       {animals === null ? (
         <p style={{ color: "red" }}>Could not load animals</p>
       ) : animals.length === 0 ? (

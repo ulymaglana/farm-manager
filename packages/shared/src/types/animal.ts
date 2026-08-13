@@ -14,3 +14,13 @@ export interface CreateAnimalInput {
   age?: number;
   description?: string;
 }
+
+export interface Pagination {
+  hasNextPage: boolean;
+  nextCursor: string | null;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: Pagination;
+}

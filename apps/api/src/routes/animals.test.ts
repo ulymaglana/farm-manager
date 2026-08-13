@@ -30,7 +30,7 @@ describe("Animal routes", () => {
   let app: FastifyInstance;
 
   beforeEach(() => {
-    app = buildApp();
+    app = buildApp({ logger: false });
   });
 
   afterEach(async () => {
@@ -134,12 +134,12 @@ describe("Animal routes", () => {
     });
   });
 
-  describe("PUT /animals/:id", () => {
+  describe("PATCH /animals/:id", () => {
     it("returns 200 with the updated animal", async () => {
       prisma.animal.update.mockResolvedValue({ ...mockAnimal, name: "Simba" });
 
       const res = await app.inject({
-        method: "PUT",
+        method: "PATCH",
         url: `/animals/${VALID_ID}`,
         payload: { name: "Simba" },
       });
@@ -152,7 +152,7 @@ describe("Animal routes", () => {
       prisma.animal.update.mockRejectedValue(p2025);
 
       const res = await app.inject({
-        method: "PUT",
+        method: "PATCH",
         url: `/animals/${VALID_ID}`,
         payload: { name: "Simba" },
       });
@@ -162,7 +162,7 @@ describe("Animal routes", () => {
 
     it("returns 400 when body has wrong field types", async () => {
       const res = await app.inject({
-        method: "PUT",
+        method: "PATCH",
         url: `/animals/${VALID_ID}`,
         payload: { age: "not-a-number" },
       });
